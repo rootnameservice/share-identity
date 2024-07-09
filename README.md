@@ -1,36 +1,161 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SHARE VIA TWITTER
 
-## Getting Started
+## Setup Twitter Configurations
 
-First, run the development server:
+1. Create a Project via [Twitter Developer Portal](https://developer.x.com/en/portal/dashboard)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+   > Note: Free plan only includes POST and DELETE /tweets and GET users/me endpoints. To be able to verify if a tweet has been posted using GET /tweets/:id, developers need to subscribe to a [Basic Plan](https://developer.x.com/en/portal/products/basic).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Setup Keys and Tokens
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+   > From the Project, navigate to Keys and Tokens tab and create the following:
+   >
+   > - API Key and Secret
+   > - Bearer Token
+   > - Access Token and Secret
+   > - Client ID and Client Secret
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+3. Update User authentication settings
+   > - **App permissions:** Read and write
+   > - **Type of App:** Web App
+   > - **App Info:**
+   >   > **Callback URI / Redirect URL:**
+   >   > <br/> Only urls listed here will be allowed as redirect urls when the user performed twitter authentication
+   >   >
+   >   > - Production server url of your app (e.g https://api.rootnameservice.com)
+   >   > - Add local server http://127.0.0.1:3001/ for development purpose.
 
-## Learn More
+## Setup Proxy Server - (Backend)
 
-To learn more about Next.js, take a look at the following resources:
+1. Setup Local Server - http://127.0.0.1:3001/ as Twitter does not support CORS
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   > Here is a public repo that you may use as a guide:
+   > [Share-Twitter-Server](https://github.com/rootnameservice/share-twitter-server)
+   >
+   > ```ts
+   > // .env
+   > NODE_ENV=development
+   > CLIENT_ID={TWITTER_CLIENT_ID}
+   > CLIENT_SECRET={TWITTER_CLIENT_SECRET}
+   > // After authentication, the server will redirect to this url
+   > APP_DOMAIN=127.0.0.1
+   > APP_ENDPOINT=http://127.0.0.1:3000/
+   > ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+2. Run the local server using `npm run start`
 
-## Deploy on Vercel
+## Setup Share App - (Frontend)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+> Here is a public repo that you may use as a guide: [Share-Identity](https://github.com/rootnameservice/share-identity) <br/>
+> Setup app with the following action buttons: Link, Tweet, Verify
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1.  ### **Link**
+
+    > This will call Twitter Authentication Page
+    >
+    > > ShareRegistration.tsx / Line 92-103 <br/> > > **Note:** Make sure to pass the `scope`, the `state (data)` as part of the url and the `local server` as redirectUri
+    >
+    > ```ts
+    > const redirectUri = `${process.env.NEXT_PUBLIC_TWITTER_API_URL}/auth/twitter`;
+    > const clientId = process.env.NEXT_PUBLIC_TWITTER_API_CLIENT_ID;
+    > const handleLink = () => {
+    >   document.cookie = `isAccessRequested=${true}; path=/`;
+    >   const scope = "tweet.read%20tweet.write%20users.read";
+    >   const url =
+    > ```
+
+        `${TWITTER_AUTH}?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}` +
+        `&scope=${scope}&state=modal-Share RNS&code_challenge=challenge&code_challenge_method=plain`;
+
+    if (typeof window !== "undefined") {
+    window.open(url, "\_self");
+    }
+    };
+
+    > ```
+    >
+    > ```
+
+2.  ### **Tweet**
+
+    > > ShareRegistration.tsx / Line 105-116
+    >
+    > ```ts
+    > const handleTweet = () => {
+    >   const content = TWEETS_RNS[Math.floor(Math.random() * TWEETS_RNS.length)];
+    >   const imageTweet = "https://t.co/x0QM05p4ia";
+    >   const url = `http://twitter.com/intent/tweet?text=${encodeURIComponent(
+    > ```
+
+        `${content} ${imageTweet}`
+
+    )}`;
+    if (typeof window !== "undefined") {
+    window.open(url, "\_blank");
+    }
+    };
+
+    > ```
+    >
+    > ```
+
+3.  ### **Verify**
+    > > ShareRegistration.tsx / Line 118-127 <br/> > > **Note:** `useGetTweetByIdQuery` hook is listening to tweetId, so when the value of this changes, the query will run. Also, this hook will not run unless the user performed authentication through `LINK`
+    >
+    > ```ts
+    > const handleVerify = () => {
+    >   const pattern = new RegExp(/status\//g);
+    >   const tweetId = link.toLowerCase().split(pattern)[1];
+    >   if (tweetId) {
+    > ```
+        setTweetId(tweetId);
+    } else {
+    setInvalidTweet("Invalid tweet url");
+    }
+    };
+    > ```
+    >
+    > ```
+
+> > ShareRegistration.tsx / Line 70-88 <br/>
+> > Hook `useGetUserDetailsQuery` checks for access_token while `useGetTweetByIdQuery` will verify if the tweet has been posted.
+
+> ```ts
+> const { data: userResponse } = useGetUserDetailsQuery(
+>   {},
+>   { skip: !isAccessRequested }
+> );
+> const isGranted = !isEmpty(userResponse?.data?.id);
+> // Skip this call when there is no tweetId and access_token provided
+> const {
+>   data: verifyResponse,
+>   isFetching: isVerifying,
+>   isSuccess: isVerified,
+>   isError: isVerifyFailed,
+> } = useGetTweetByIdQuery(
+>   { tweetId: tweetId || "" },
+>   { skip: !isGranted || isEmpty(tweetId) }
+> );
+> ```
+
+4. ### Trigger Webhook after Verification
+   > > ShareRegistration.tsx / Line 138 and shareApi.ts Line 38-51 <br/> > > **Note:** Webhook URL, Web API and FuturePass Address are required.
+   >
+   > ```ts
+   > triggerWebhook({ futurePass: futurePassAddress });
+   > ```
+
+## How to test locally?
+
+> Since access_token only works when the App (frontend) and the server are both in the same domain, here is how the end to end local testing is done. Feel free to suggest another way ;)
+>
+> 1. Run the local server http://127.0.0.1:3001
+> 2. From the App http://127.0.0.1:3000, authenticate twitter via `Link` Action
+>    > - This will route to twitter auth page, when the user approves, this will redirect to local server. <br/>
+>    > - The local server will then route to the App url and passing the access_token as a cookie
+>    > - To enable the Tweet and Verify Button, copy the `accessToken` from the Browser's Application
+>    > - Replace `token` with the `accessToken` in the following files in the local server
+>    >   > - app.controller.ts Line 24
+>    >   > - authGaurd.ts Line 16
+>    >   > - users.controller.ts Line 16
+>    > - Rerun the local server and refresh the app
