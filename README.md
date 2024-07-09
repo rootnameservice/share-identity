@@ -46,8 +46,27 @@
 
 ## Setup Share App - (Frontend)
 
-> Here is a public repo that you may use as a guide: [Share-Identity](https://github.com/rootnameservice/share-identity) <br/>
-> Setup app with the following action buttons: `Link`, `Tweet`, `Verify`
+Here is a public repo that you may use as a guide: [Share-Identity](https://github.com/rootnameservice/share-identity) <br/>
+
+```ts
+# Sample .env.local file
+# Rename this to .env
+NEXT_PUBLIC_CHAIN_ID = 7672 #porcini
+NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID = #wallet connect project id - temporarily remove wallet connect if not needed
+NEXT_PUBLIC_TWITTER_API_CLIENT_ID = #client id generated from twitter dashboard
+NEXT_PUBLIC_TWITTER_API_URL = http://127.0.0.1:3001 #local server
+
+# Porcini
+NEXT_PUBLIC_WEBHOOK_URL = #webhook url provided by
+NEXT_PUBLIC_WEBHOOK_API = #webhook api provided by
+```
+
+```ts
+pnpm install
+pnpm run dev
+```
+
+Setup app with the following action buttons: `Link`, `Tweet`, `Verify`
 
 1. ### **Link**
 
