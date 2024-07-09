@@ -7,7 +7,6 @@ import {
 } from "../Wallet/StyledWallet";
 import { useAccount, useEnsName } from "wagmi";
 import { useRootNetworkState } from "@/redux/rootNetwork/rootNetworkSlice";
-import { usePathname, useRouter } from "next/navigation";
 import { Address } from "viem";
 import { useModalState } from "@/redux/modal/modalSlice";
 import { getMaskedAddress } from "@/utils/common";
@@ -33,9 +32,6 @@ export const Connect: React.FC = () => {
   } = useEnsName({
     address: address as Address,
   });
-
-  const router = useRouter();
-  const pathName = usePathname();
 
   const { toggleModal } = useModalState();
   const { path } = useWalletIcon({ name: connector?.name as Wallet });

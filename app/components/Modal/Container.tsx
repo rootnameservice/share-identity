@@ -11,6 +11,7 @@ import {
 
 import ShareRegistration from "../Share/ShareRegistration";
 import Wallets from "../Wallet/Wallets";
+import SwitchNetwork from "../Wallet/SwitchNetwork";
 
 export interface ContentProps {
   fullWidth?: boolean;
@@ -44,6 +45,8 @@ export const ModalContainer: React.FC = () => {
         return <ShareRegistration />;
       case "Wallets":
         return <Wallets />;
+      case "Switch Network":
+        return <SwitchNetwork />;
       default:
         return;
     }

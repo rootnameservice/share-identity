@@ -41,7 +41,7 @@ export const Share: React.FC = () => {
 
   const handleTweet = () => {
     const content = TWEETS_RNS[Math.floor(Math.random() * TWEETS_RNS.length)];
-    const imageTweet = "https://t.co/x0QM05p4ia"; // "pic.twitter.com/x0QM05p4ia"; // `https://pic.x.com/x0qm05p4ia`;
+    const imageTweet = "https://t.co/x0QM05p4ia";
 
     const url = `http://twitter.com/intent/tweet?text=${encodeURIComponent(
       `${content} ${imageTweet}`

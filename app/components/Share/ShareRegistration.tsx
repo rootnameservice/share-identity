@@ -144,6 +144,7 @@ export const ShareRegistration: React.FC = () => {
     if (result.isSuccess) {
       document.cookie = `isTweetVerified=${true}; path=/`;
     }
+
     updateShareStatus({
       isLoading: result.isLoading,
       isSuccess: result.isSuccess,

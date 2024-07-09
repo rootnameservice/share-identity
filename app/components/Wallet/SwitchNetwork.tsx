@@ -9,11 +9,8 @@ import {
 import { FONT_WEIGHT } from "../Theme/Global";
 import { switchChain } from "@wagmi/core";
 import { config } from "@/chains/config";
-import { useSnackbar } from "notistack";
 import { useAccount, useConnect } from "wagmi";
-import { VIDEO_SWITCH_NETWORK } from "@/constants/url";
 
-import Paragraph from "../Reusables/Paragraph";
 import Image from "next/image";
 import useNetworkConfig from "@/hooks/useNetworkConfig";
 
@@ -67,8 +64,6 @@ export const SwitchNetwork: React.FC = () => {
   const { connect } = useConnect();
   const { connector: activeConnector } = useAccount();
 
-  const { enqueueSnackbar } = useSnackbar();
-
   const switchNetwork = async () => {
     try {
       await switchChain(config, {
@@ -80,16 +75,15 @@ export const SwitchNetwork: React.FC = () => {
       }
     } catch (error) {
       console.log("Error Switching Network:: ", error);
-      enqueueSnackbar((error as any).message, { variant: "error" });
     }
   };
 
   return (
     <Container>
-      <Paragraph
-        description="You are currently connected to another network, Please switch to The
-        Root Network."
-      />
+      <Description>
+        You are currently connected to another network, Please switch to The
+        Root Network.
+      </Description>
       <RootNetwork>
         <Image
           src="/images/rns-logo-1.svg"
@@ -99,14 +93,11 @@ export const SwitchNetwork: React.FC = () => {
         />
         <WalletName>The Root Network</WalletName>
       </RootNetwork>
-
-      <Paragraph
-        description={{
-          content: "Or add The Root Network manually.",
-          highlights: ["manually"],
-        }}
-      />
-      <VideoLink href={VIDEO_SWITCH_NETWORK} target="_blank">
+      <Description>Or add The Root Network manually.</Description>
+      <VideoLink
+        href={"https://vimeo.com/909628422/f677c793af"}
+        target="_blank"
+      >
         <VideoLabel>Watch here</VideoLabel>
       </VideoLink>
 
