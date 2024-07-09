@@ -153,12 +153,12 @@ export const Connect: React.FC = () => {
           isOpen={isOpen}
           anchorEl={anchor}
           anchorOrigin={{
-            vertical: "bottom",
+            vertical: "center",
             horizontal: "right",
           }}
           transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
+            vertical: "center",
+            horizontal: "left",
           }}
           toggleClose={() => {
             setIsOpen(false);

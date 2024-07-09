@@ -13,6 +13,26 @@ import {
 } from "../Theme/StyledGlobal";
 import { green, red, yellow } from "@mui/material/colors";
 import { FONT_WEIGHT } from "../Theme/Global";
+import { X } from "@mui/icons-material";
+
+export const SubContainer = styled(FlexCenter)(({ theme }) => ({
+  padding: "25px 8px 0 8px",
+}));
+
+export const TwitterIcon = styled(X)(({ theme }) => ({
+  margin: "6px 8px",
+  fontSize: "16px",
+}));
+
+export const ShareDivider = styled(MuiDivider)(({ theme }) => ({
+  borderColor: alpha(theme.palette.primary.main, 0.2),
+}));
+
+export const ShareLabel = styled(SecondaryLabel)(({ theme }) => ({
+  padding: "6px 10px",
+  textTransform: "uppercase",
+  fontWeight: FONT_WEIGHT.Bold,
+}));
 
 export const Container = styled(Grid)(({ theme }) => ({
   padding: "50px 30px 40px 30px",

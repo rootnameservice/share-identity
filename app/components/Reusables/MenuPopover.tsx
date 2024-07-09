@@ -10,7 +10,7 @@ import {
 
 const Container = styled(Grid)(({ theme }) => ({
   background: "linear-gradient(180deg, #000000 32.5%, #c2185b 100%)",
-  borderRadius: "8px",
+  borderRadius: "4px",
   padding: "1px",
 }));
 
@@ -43,7 +43,7 @@ export const MenuPopover: React.FC<MenuPopover> = (props: MenuPopover) => {
       <Popover
         sx={{
           ".MuiPaper-root": {
-            marginTop: "8px",
+            marginLeft: "8px",
           },
         }}
         open={isOpen}
