@@ -72,7 +72,7 @@ Setup app with the following action buttons: `Link`, `Tweet`, `Verify`
 
    > This will call Twitter Authentication Page
    >
-   > _ShareRegistration.tsx / Line 92-103_ > **Note:** Make sure to pass the `scope`, the `state (data)` as part of the url and the `local server` as redirectUri
+   > _ShareRegistration.tsx / Line 92-103_ <br/> **Note:** Make sure to pass the `scope`, the `state (data)` as part of the url and the `local server` as redirectUri
    >
    > ```ts
    > const redirectUri = `${process.env.NEXT_PUBLIC_TWITTER_API_URL}/auth/twitter`;
@@ -107,7 +107,7 @@ Setup app with the following action buttons: `Link`, `Tweet`, `Verify`
 
 3. ### **Verify**
 
-   > _ShareRegistration.tsx / Line 118-127_ > <br/> **Note:** `useGetTweetByIdQuery` hook is listening to tweetId, so when the value of this changes, the query will run. Also, this hook will not run unless the user performed authentication through `LINK`
+   > _ShareRegistration.tsx / Line 118-127_ <br/> **Note:** `useGetTweetByIdQuery` hook is listening to tweetId, so when the value of this changes, the query will run. Also, this hook will not run unless the user performed authentication through `LINK`
    >
    > ```ts
    > const handleVerify = () => {
@@ -121,7 +121,7 @@ Setup app with the following action buttons: `Link`, `Tweet`, `Verify`
    > };
    > ```
    >
-   > _ShareRegistration.tsx / Line 70-88_ > <br/> Hook `useGetUserDetailsQuery` checks for access_token while `useGetTweetByIdQuery` will verify if the tweet has been posted.
+   > _ShareRegistration.tsx / Line 70-88_ <br/> Hook `useGetUserDetailsQuery` checks for access_token while `useGetTweetByIdQuery` will verify if the tweet has been posted.
    >
    > ```ts
    > const { data: userResponse } = useGetUserDetailsQuery(
@@ -145,7 +145,7 @@ Setup app with the following action buttons: `Link`, `Tweet`, `Verify`
 
 4. ### Trigger Webhook after Verification
 
-   > _ShareRegistration.tsx / Line 138_ and _shareApi.ts Line 38-51_ > <br/> **Note:** Webhook URL, Web API and FuturePass Address are required.
+   > _ShareRegistration.tsx / Line 138_ and _shareApi.ts Line 38-51_ <br/> **Note:** Webhook URL, Web API and FuturePass Address are required.
    >
    > ```ts
    > triggerWebhook({ futurePass: futurePassAddress });
@@ -157,7 +157,7 @@ Since access_token only works when the App (frontend) and the server are both in
 
 1. Run the local server http://127.0.0.1:3001
 2. From the App http://127.0.0.1:3000, authenticate twitter via `Link` Action
-   > - This will route to twitter auth page, when the user approves, this will redirect to local server. <br/>
+   > - This will route to twitter auth page, when the user approves, this will redirect to local server.
    > - The local server will then route to the App url and passing the access_token as a cookie
    > - To enable the Tweet and Verify Button, copy the `accessToken` from the Browser's Application
    > - Replace `token` with the `accessToken` in the following files in the local server
