@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-import { ModalState, useModalState } from "@/redux/modal/modalSlice";
+import React from "react";
+import { useModalState } from "@/redux/modal/modalSlice";
 import { CloseButton, CloseIcon, Title } from "../Theme/StyledGlobal";
-import { useSearchParams } from "next/navigation";
-import { getModalFromPath } from "@/utils/common";
 import { useRouter } from "next/navigation";
 import {
   Dialog,
@@ -25,18 +23,13 @@ export const ModalContainer: React.FC = () => {
   const { isModalOpen, props } = useModal();
 
   const router = useRouter();
-  const params = useSearchParams();
-  const state = params.get("state") || "";
-  const modal: ModalState = getModalFromPath(state, props?.id);
-
-  const [isPathModalOpen, setIsPathModalOpen] = useState(modal.isModalOpen);
 
   const isCloseDisabled = props?.isCloseDisabled || false;
-  const type = props?.id || modal.props?.id || "";
-  const isFullHeight = props?.fullHeight || modal.props?.fullHeight;
-  const isFullWidth = props?.fullWidth || modal.props?.fullWidth;
-  const isOpen = isModalOpen || isPathModalOpen;
-  const title = props?.title || modal.props?.title;
+  const type = props?.id || "";
+  const isFullHeight = props?.fullHeight;
+  const isFullWidth = props?.fullWidth;
+  const isOpen = isModalOpen;
+  const title = props?.title;
 
   /**
    * Storing a non-serializeable (e.g, react components)
@@ -66,7 +59,6 @@ export const ModalContainer: React.FC = () => {
             // do not allow modal to be closed
           } else {
             closeModal();
-            setIsPathModalOpen(false);
             router.push("/", { scroll: false });
           }
         }}
@@ -83,7 +75,6 @@ export const ModalContainer: React.FC = () => {
                 <CloseButton
                   onClick={() => {
                     closeModal();
-                    setIsPathModalOpen(false);
                     router.replace("/", { scroll: false });
                   }}
                 >

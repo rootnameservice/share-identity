@@ -30,12 +30,8 @@ export interface TweetResponse {
     data?: any
 }
 
-/** 
- * TODO: This should be in .env.local
- * Porcini Webhooks
- */
-const webHook = "https://webhook.futurequest.cloud/callback/51893b7f-6c06-449b-8e20-bc01853f09c9"
-const apiKey = "947dcdaf4c125a1984acfa93"
+const webHook = process.env.NEXT_PUBLIC_WEBHOOK_URL
+const apiKey = process.env.NEXT_PUBLIC_WEBHOOK_API
 
 export const shareApi = api.injectEndpoints({
     endpoints: (builder) => ({

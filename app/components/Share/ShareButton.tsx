@@ -27,8 +27,6 @@ export const Share: React.FC = () => {
     data: { futurePassAddress },
   } = useRootNetwork();
 
-  console.log("futurePassAddress:: ", futurePassAddress);
-
   // No longer used
   // const isShareEnabled = isRegisteredDuringQuest(createdAt);
   const isShareEnabled = true;
@@ -70,6 +68,11 @@ export const Share: React.FC = () => {
     >
       <SubContainer>
         <ShareButton
+          sx={{
+            "&.MuiButton-contained": {
+              padding: "0 8px",
+            },
+          }}
           variant="contained"
           disabled={isShareDisabled}
           onClick={() => {

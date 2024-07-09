@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CircularProgress, Grid, StepLabel } from "@mui/material";
+import { CircularProgress, Grid } from "@mui/material";
 import {
   BulletContainer,
   BulletLabel,
@@ -10,6 +10,7 @@ import {
   Failed,
   Divider,
   Container,
+  StepLabel,
 } from "./StyledShare";
 
 import {
@@ -103,8 +104,11 @@ export const ShareRegistration: React.FC = () => {
 
   const handleTweet = () => {
     const content = TWEETS_RNS[Math.floor(Math.random() * TWEETS_RNS.length)];
+    const imageTweet = "https://t.co/x0QM05p4ia";
 
-    const url = `http://twitter.com/intent/tweet?text=${content}`;
+    const url = `http://twitter.com/intent/tweet?text=${encodeURIComponent(
+      `${content} ${imageTweet}`
+    )}`;
 
     if (typeof window !== "undefined") {
       window.open(url, "_blank");

@@ -23,11 +23,10 @@ export interface CustomRequestConfig extends AxiosRequestConfig {
 export const customBaseQuery = (options: CustomRequestOptions): BaseQueryFn<any> => {
     return async (axiosRequestConfig: CustomRequestConfig) => {
         let responseData = null
-
         try {
 
             // Check if the request is from graphql
-            // no provided url, graphql
+            // if no provided url, then graphql
             if (axiosRequestConfig?.url) {
                 const response = await axios({
                     ...axiosRequestConfig,
