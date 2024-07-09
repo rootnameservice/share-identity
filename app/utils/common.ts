@@ -22,6 +22,15 @@ export const parseCookie = (key: string) => {
 }
 
 /**
+ * This util will return a masked address
+ * @param address string
+ * @returns string
+ */
+export const getMaskedAddress = (address: string, index = 6) => {
+    return `${address.slice(0, index)}...${address.slice(-index)}`
+}
+
+/**
  * NOTE: Specific for Share Modal only!!
  * All routing must be done via nextjs pages
  * 

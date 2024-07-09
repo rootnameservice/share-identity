@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ModalState, useModalState } from "@/redux/modal/modalSlice";
-import { CloseButton, CloseIcon } from "../Theme/StyledGlobal";
+import { CloseButton, CloseIcon, Title } from "../Theme/StyledGlobal";
 import { useSearchParams } from "next/navigation";
 import { getModalFromPath } from "@/utils/common";
 import { useRouter } from "next/navigation";
@@ -12,6 +12,7 @@ import {
 } from "./StyledModal";
 
 import ShareRegistration from "../Share/ShareRegistration";
+import Wallets from "../Wallet/Wallets";
 
 export interface ContentProps {
   fullWidth?: boolean;
@@ -35,6 +36,7 @@ export const ModalContainer: React.FC = () => {
   const isFullHeight = props?.fullHeight || modal.props?.fullHeight;
   const isFullWidth = props?.fullWidth || modal.props?.fullWidth;
   const isOpen = isModalOpen || isPathModalOpen;
+  const title = props?.title || modal.props?.title;
 
   /**
    * Storing a non-serializeable (e.g, react components)
@@ -47,6 +49,8 @@ export const ModalContainer: React.FC = () => {
     switch (type) {
       case "Share RNS":
         return <ShareRegistration />;
+      case "Wallets":
+        return <Wallets />;
       default:
         return;
     }
@@ -75,15 +79,18 @@ export const ModalContainer: React.FC = () => {
                 fullWidth: isFullWidth,
               }}
             >
-              <CloseButton
-                onClick={() => {
-                  closeModal();
-                  setIsPathModalOpen(false);
-                  router.replace("/", { scroll: false });
-                }}
-              >
-                <CloseIcon />
-              </CloseButton>
+              {!props?.isXDisabled && (
+                <CloseButton
+                  onClick={() => {
+                    closeModal();
+                    setIsPathModalOpen(false);
+                    router.replace("/", { scroll: false });
+                  }}
+                >
+                  <CloseIcon />
+                </CloseButton>
+              )}
+              {!props?.isHeaderEnabled && title && <Title>{title}</Title>}
               {getContent(type)}
             </Content>
           </ContentContainer>

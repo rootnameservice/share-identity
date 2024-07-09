@@ -136,23 +136,19 @@ export const GlobalTheme: React.FC<GlobalTheme> = (props) => {
         ...(mode === "light"
           ? {
               background: {
-                paper: grey[100],
-                default: grey[200],
-
-                light: grey[50],
-                dark: grey[300],
-                darker: grey[400],
+                paper: "#000000", // High Contrast Background
+                default: "#100208", // Dark Primary Color
+                dark: "#1A1A1A",
+                darker: "#0C0C0C",
               },
               primary: {
-                light: yellow[600],
-                main: yellow[700],
-                dark: darken(yellow[800], 0.25),
-                contrastText: "#000000",
+                main: "#C2185B",
+                dark: "#540624",
+                contrastText: "#FFFFFF",
               },
               secondary: {
-                light: grey[50],
-                main: grey[200],
-                dark: grey[300],
+                main: "#C7C7C7",
+                dark: "#3E3D3D",
                 contrastText: "#000000",
               },
             }
